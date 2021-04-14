@@ -20,7 +20,11 @@ const createList = async (boardId, body) => {
 
     return { data: result };
   } catch (err) {
-    return err;
+    return {
+      error: "Internal server error",
+      message: err.message,
+      err: err.stack,
+    };
   }
 };
 
@@ -29,7 +33,11 @@ const updateList = async (id, body) => {
     const result = await List.findByIdAndUpdate(id, body);
     return { data: result };
   } catch (err) {
-    return err;
+    return {
+      error: "Internal server error",
+      message: err.message,
+      err: err.stack,
+    };
   }
 };
 
@@ -42,7 +50,11 @@ const deleteList = async (id) => {
 
     return { data: result };
   } catch (err) {
-    return err;
+    return {
+      error: "Internal server error",
+      message: err.message,
+      err: err.stack,
+    };
   }
 };
 
@@ -51,7 +63,11 @@ const getList = async (id) => {
     const result = await List.findById(id).populate("todos", "-__v");
     return { data: result };
   } catch (err) {
-    return err;
+    return {
+      error: "Internal server error",
+      message: err.message,
+      err: err.stack,
+    };
   }
 };
 
@@ -60,7 +76,11 @@ const getAllLists = async () => {
     const result = await List.find().populate("todos", "-__v");
     return { data: result };
   } catch (err) {
-    return err;
+    return {
+      error: "Internal server error",
+      message: err.message,
+      err: err.stack,
+    };
   }
 };
 

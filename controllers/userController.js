@@ -13,7 +13,11 @@ const getUser = async (username) => {
 
     return { data: user };
   } catch (err) {
-    return err;
+    return {
+      error: "Internal server error",
+      message: err.message,
+      err: err.stack,
+    };
   }
 };
 
@@ -22,7 +26,11 @@ const getAuthenticatedUser = async (id) => {
     const user = await User.findById(id).select("-password");
     return { data: user };
   } catch (err) {
-    return err;
+    return {
+      error: "Internal server error",
+      message: err.message,
+      err: err.stack,
+    };
   }
 };
 
@@ -36,7 +44,11 @@ const updateUser = async (id, body) => {
     }).select("-__v -password");
     return { data: result };
   } catch (err) {
-    return err;
+    return {
+      error: "Internal server error",
+      message: err.message,
+      err: err.stack,
+    };
   }
 };
 

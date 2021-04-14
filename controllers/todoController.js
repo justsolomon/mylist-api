@@ -21,7 +21,11 @@ const createTodo = async (listId, body) => {
 
     return { data: result.todos };
   } catch (err) {
-    return err;
+    return {
+      error: "Internal server error",
+      message: err.message,
+      err: err.stack,
+    };
   }
 };
 
@@ -35,7 +39,11 @@ const updateTodo = async (id, body) => {
     const result = await Todo.findByIdAndUpdate(id, updatedTodo, { new: true });
     return { data: result };
   } catch (err) {
-    return err;
+    return {
+      error: "Internal server error",
+      message: err.message,
+      err: err.stack,
+    };
   }
 };
 
@@ -44,7 +52,11 @@ const deleteTodo = async (id) => {
     const result = await Todo.findByIdAndDelete(id);
     return { data: result };
   } catch (err) {
-    return err;
+    return {
+      error: "Internal server error",
+      message: err.message,
+      err: err.stack,
+    };
   }
 };
 
@@ -53,7 +65,11 @@ const getTodo = async (id) => {
     const result = await Todo.findById(id);
     return { data: result };
   } catch (err) {
-    return err;
+    return {
+      error: "Internal server error",
+      message: err.message,
+      err: err.stack,
+    };
   }
 };
 
@@ -62,7 +78,11 @@ const getAllTodos = async () => {
     const result = await Todo.find();
     return { data: result };
   } catch (err) {
-    return err;
+    return {
+      error: "Internal server error",
+      message: err.message,
+      err: err.stack,
+    };
   }
 };
 

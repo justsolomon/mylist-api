@@ -57,7 +57,8 @@ const setTokenCookie = (res, token) => {
     const cookieOptions = {
       httpOnly: true,
       expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-      sameSite: "None; Secure",
+      sameSite: "None",
+      secure: true,
     };
     res.cookie("refreshToken", token, cookieOptions);
   }
@@ -111,7 +112,11 @@ exports.registerUser = async (body, ipAddress, res) => {
 
     return { ...userData, jwt };
   } catch (err) {
-    return err;
+    return {
+      error: "Internal server error",
+      message: err.message,
+      err: err.stack,
+    };
   }
 };
 
@@ -146,7 +151,11 @@ exports.loginUser = async (body, ipAddress, res) => {
 
     return { ...user, jwt };
   } catch (err) {
-    return err;
+    return {
+      error: "Internal server error",
+      message: err.message,
+      err: err.stack,
+    };
   }
 };
 
@@ -175,7 +184,11 @@ exports.refreshTokenController = async (token, ipAddress, res) => {
 
     return { jwt };
   } catch (err) {
-    return err;
+    return {
+      error: "Internal server error",
+      message: err.message,
+      err: err.stack,
+    };
   }
 };
 
@@ -207,7 +220,11 @@ exports.requestResetPassword = async (email) => {
 
     return { result };
   } catch (err) {
-    return err;
+    return {
+      error: "Internal server error",
+      message: err.message,
+      err: err.stack,
+    };
   }
 };
 
@@ -244,6 +261,10 @@ exports.resetPassword = async (body) => {
     if (user) return { success: "Password reset successful" };
     else return { data: user, error: "Something went wrong" };
   } catch (err) {
-    return err;
+    return {
+      error: "Internal server error",
+      message: err.message,
+      err: err.stack,
+    };
   }
 };

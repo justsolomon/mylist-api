@@ -24,7 +24,11 @@ const createBoard = async (userId, body) => {
 
     return { data: result };
   } catch (err) {
-    return err;
+    return {
+      error: "Internal server error",
+      message: err.message,
+      err: err.stack,
+    };
   }
 };
 
@@ -33,7 +37,11 @@ const updateBoard = async (id, body) => {
     const result = await Board.findByIdAndUpdate(id, body);
     return { data: result };
   } catch (err) {
-    return err;
+    return {
+      error: "Internal server error",
+      message: err.message,
+      err: err.stack,
+    };
   }
 };
 
@@ -47,7 +55,11 @@ const deleteBoard = async (id) => {
 
     return { data: result };
   } catch (err) {
-    return err;
+    return {
+      error: "Internal server error",
+      message: err.message,
+      err: err.stack,
+    };
   }
 };
 
@@ -63,7 +75,11 @@ const getBoard = async (id) => {
     });
     return { data: result };
   } catch (err) {
-    return err;
+    return {
+      error: "Internal server error",
+      message: err.message,
+      err: err.stack,
+    };
   }
 };
 
@@ -72,7 +88,11 @@ const getUserBoards = async (userId) => {
     const result = await Board.find({ userId }).select("-__v");
     return { data: result };
   } catch (err) {
-    return err;
+    return {
+      error: "Internal server error",
+      message: err.message,
+      err: err.stack,
+    };
   }
 };
 
@@ -81,7 +101,11 @@ const getPublicBoards = async (userId) => {
     const result = await Board.find({ userId, private: false }).select("-__v");
     return { data: result };
   } catch (err) {
-    return err;
+    return {
+      error: "Internal server error",
+      message: err.message,
+      err: err.stack,
+    };
   }
 };
 
