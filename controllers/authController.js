@@ -218,7 +218,7 @@ exports.requestResetPassword = async (email) => {
       "/views/resetPassword.handlebars"
     );
 
-    return { result };
+    return result;
   } catch (err) {
     return {
       error: "Internal server error",

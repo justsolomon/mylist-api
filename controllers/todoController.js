@@ -19,7 +19,7 @@ const createTodo = async (listId, body) => {
       { new: true }
     ).populate("todos");
 
-    return { data: result.todos };
+    return { ...result.todos };
   } catch (err) {
     return {
       error: "Internal server error",
@@ -37,7 +37,7 @@ const updateTodo = async (id, body) => {
     };
 
     const result = await Todo.findByIdAndUpdate(id, updatedTodo, { new: true });
-    return { data: result };
+    return result;
   } catch (err) {
     return {
       error: "Internal server error",
@@ -50,7 +50,7 @@ const updateTodo = async (id, body) => {
 const deleteTodo = async (id) => {
   try {
     const result = await Todo.findByIdAndDelete(id);
-    return { data: result };
+    return result;
   } catch (err) {
     return {
       error: "Internal server error",
@@ -63,7 +63,7 @@ const deleteTodo = async (id) => {
 const getTodo = async (id) => {
   try {
     const result = await Todo.findById(id);
-    return { data: result };
+    return result;
   } catch (err) {
     return {
       error: "Internal server error",
@@ -76,7 +76,7 @@ const getTodo = async (id) => {
 const getAllTodos = async () => {
   try {
     const result = await Todo.find();
-    return { data: result };
+    return result;
   } catch (err) {
     return {
       error: "Internal server error",

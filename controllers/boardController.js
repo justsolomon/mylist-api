@@ -22,7 +22,7 @@ const createBoard = async (userId, body) => {
 
     if (!result) return { error: `User with id ${userId} doesn't exist` };
 
-    return { data: result };
+    return result;
   } catch (err) {
     return {
       error: "Internal server error",
@@ -35,7 +35,7 @@ const createBoard = async (userId, body) => {
 const updateBoard = async (id, body) => {
   try {
     const result = await Board.findByIdAndUpdate(id, body);
-    return { data: result };
+    return result;
   } catch (err) {
     return {
       error: "Internal server error",
@@ -53,7 +53,7 @@ const deleteBoard = async (id) => {
     const deletedLists = await List.deleteMany({ boardId: id });
     console.log(result, "deleted lists", deletedLists);
 
-    return { data: result };
+    return result;
   } catch (err) {
     return {
       error: "Internal server error",
@@ -73,7 +73,7 @@ const getBoard = async (id) => {
         select: "-__v -description",
       },
     });
-    return { data: result };
+    return result;
   } catch (err) {
     return {
       error: "Internal server error",
@@ -86,7 +86,7 @@ const getBoard = async (id) => {
 const getUserBoards = async (userId) => {
   try {
     const result = await Board.find({ userId }).select("-__v");
-    return { data: result };
+    return result;
   } catch (err) {
     return {
       error: "Internal server error",
@@ -99,7 +99,7 @@ const getUserBoards = async (userId) => {
 const getPublicBoards = async (userId) => {
   try {
     const result = await Board.find({ userId, private: false }).select("-__v");
-    return { data: result };
+    return result;
   } catch (err) {
     return {
       error: "Internal server error",

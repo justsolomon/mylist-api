@@ -18,7 +18,7 @@ const createList = async (boardId, body) => {
       { new: true }
     ).populate("lists");
 
-    return { data: result };
+    return result;
   } catch (err) {
     return {
       error: "Internal server error",
@@ -31,7 +31,7 @@ const createList = async (boardId, body) => {
 const updateList = async (id, body) => {
   try {
     const result = await List.findByIdAndUpdate(id, body);
-    return { data: result };
+    return result;
   } catch (err) {
     return {
       error: "Internal server error",
@@ -48,7 +48,7 @@ const deleteList = async (id) => {
     //delete todos in the list
     const deletedTodos = await Todo.deleteMany({ listId: id });
 
-    return { data: result };
+    return result;
   } catch (err) {
     return {
       error: "Internal server error",
@@ -61,7 +61,7 @@ const deleteList = async (id) => {
 const getList = async (id) => {
   try {
     const result = await List.findById(id).populate("todos", "-__v");
-    return { data: result };
+    return result;
   } catch (err) {
     return {
       error: "Internal server error",
@@ -74,7 +74,7 @@ const getList = async (id) => {
 const getAllLists = async () => {
   try {
     const result = await List.find().populate("todos", "-__v");
-    return { data: result };
+    return result;
   } catch (err) {
     return {
       error: "Internal server error",

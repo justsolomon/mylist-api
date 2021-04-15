@@ -11,7 +11,7 @@ const getUser = async (username) => {
         match: { private: false },
       });
 
-    return { data: user };
+    return user;
   } catch (err) {
     return {
       error: "Internal server error",
@@ -23,8 +23,8 @@ const getUser = async (username) => {
 
 const getAuthenticatedUser = async (id) => {
   try {
-    const user = await User.findById(id).select("-password");
-    return { data: user };
+    const user = await User.findById(id).select("-password").populate("boards");
+    return user;
   } catch (err) {
     return {
       error: "Internal server error",
@@ -42,7 +42,7 @@ const updateUser = async (id, body) => {
     const result = await User.findByIdAndUpdate(id, body, {
       new: true,
     }).select("-__v -password");
-    return { data: result };
+    return result;
   } catch (err) {
     return {
       error: "Internal server error",
