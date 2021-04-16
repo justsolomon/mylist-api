@@ -5,6 +5,7 @@ const boardSchema = mongoose.Schema({
   private: { type: Boolean, required: true },
   background: { type: String, required: true },
   userId: { type: String, required: true },
+  starred: { type: Boolean, required: true },
   lists: [
     {
       type: mongoose.Schema.Types.ObjectId,

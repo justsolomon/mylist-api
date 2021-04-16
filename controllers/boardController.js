@@ -6,6 +6,7 @@ const createBoard = async (userId, body) => {
   try {
     const board = new Board({
       ...body,
+      starred: false,
       userId,
     });
 
@@ -34,7 +35,7 @@ const createBoard = async (userId, body) => {
 
 const updateBoard = async (id, body) => {
   try {
-    const result = await Board.findByIdAndUpdate(id, body);
+    const result = await Board.findByIdAndUpdate(id, body, { new: true });
     return result;
   } catch (err) {
     return {
