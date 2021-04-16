@@ -92,7 +92,8 @@ const getBoard = async (id, authHeader) => {
     let userId;
     if (authHeader) {
       userId = jwt.verify(getTokenFromHeader(authHeader), config.secret).id;
-    } else if (result.private && !authHeader) return privateError;
+    } else if (result.private && !authHeader)
+      return { error: "No token provided", privateErr: true };
 
     //return error if board is private and user ids do not match
     if (result.private && userId !== result.userId) {

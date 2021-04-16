@@ -4,12 +4,12 @@ const getTokenFromHeader = require("../utils/getTokenFromHeader");
 
 const verifyToken = (req, res, next) => {
   let authHeader = req.headers["authorization"];
-  if (!authHeader) return res.status(403).send({ error: "No token provided." });
+  if (!authHeader) return res.status(403).send({ error: "No token provided" });
 
   const token = getTokenFromHeader(authHeader);
   jwt.verify(token, config.secret, (err, decoded) => {
     if (err)
-      return res.status(500).send({ error: "Failed to authenticate token." });
+      return res.status(500).send({ error: "Failed to authenticate token" });
 
     // if everything good, save to request for use in other routes
     req.userId = decoded.id;
