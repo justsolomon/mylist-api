@@ -38,8 +38,16 @@ const createBoard = async (userId, body) => {
 
 const updateBoard = async (id, body) => {
   try {
-    const result = await Board.findByIdAndUpdate(id, body, { new: true });
-    return result;
+    const result = await Board.findByIdAndUpdate(id, body, {
+      new: true,
+    }).lean();
+
+    const user = await User.findById(result.userId)
+      .populate("boards")
+      .select("-password")
+      .lean();
+
+    return { ...result, user };
   } catch (err) {
     return {
       error: "Internal server error",
