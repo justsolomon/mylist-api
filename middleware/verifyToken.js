@@ -1,11 +1,12 @@
 const jwt = require("jsonwebtoken");
 const config = require("../config");
+const getTokenFromHeader = require("../utils/getTokenFromHeader");
 
 const verifyToken = (req, res, next) => {
   let authHeader = req.headers["authorization"];
   if (!authHeader) return res.status(403).send({ error: "No token provided." });
 
-  const token = req.headers["authorization"].replace("Bearer ", "");
+  const token = getTokenFromHeader(authHeader);
   jwt.verify(token, config.secret, (err, decoded) => {
     if (err)
       return res.status(500).send({ error: "Failed to authenticate token." });

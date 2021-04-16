@@ -1,6 +1,9 @@
 const Board = require("../models/boardModel");
 const List = require("../models/listModel");
 const User = require("../models/userModel");
+const jwt = require("jsonwebtoken");
+const getTokenFromHeader = require("../utils/getTokenFromHeader");
+const config = require("../config");
 
 const createBoard = async (userId, body) => {
   try {
@@ -64,7 +67,7 @@ const deleteBoard = async (id) => {
   }
 };
 
-const getBoard = async (id) => {
+const getBoard = async (id, authHeader) => {
   try {
     const result = await Board.findById(id).populate({
       path: "lists",
@@ -74,6 +77,20 @@ const getBoard = async (id) => {
         select: "-__v -description",
       },
     });
+
+    let privateError = { error: "This board is private", privateErr: true };
+
+    //get userId from auth token
+    let userId;
+    if (authHeader) {
+      userId = jwt.verify(getTokenFromHeader(authHeader), config.secret).id;
+    } else if (result.private && !authHeader) return privateError;
+
+    //return error if board is private and user ids do not match
+    if (result.private && userId !== result.userId) {
+      return privateError;
+    }
+
     return result;
   } catch (err) {
     return {

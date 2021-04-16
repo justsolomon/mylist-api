@@ -8,7 +8,7 @@ const { getHTTPStatus } = require("../../utils/getHTTPStatus");
 exports.getSingleBoardRoute = async (req, res) => {
   const id = req.params.id;
 
-  const result = await getBoard(id);
+  const result = await getBoard(id, req.headers["authorization"]);
 
   res.status(getHTTPStatus(result, 200, 400)).send(result);
 };
