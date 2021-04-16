@@ -38,6 +38,8 @@ const createBoard = async (userId, body) => {
 
 const updateBoard = async (id, body) => {
   try {
+    if (body.title === "") return { error: "Title cannot be empty" };
+
     const result = await Board.findByIdAndUpdate(id, body, {
       new: true,
     }).lean();
