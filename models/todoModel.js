@@ -4,6 +4,7 @@ const todoSchema = new mongoose.Schema({
   title: { type: String, required: true },
   description: { type: String, required: true },
   listId: { type: String, required: true },
+  boardId: { type: String, required: true },
   createdAt: {
     type: Date,
     default: Date.now,

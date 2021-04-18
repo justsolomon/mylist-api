@@ -1,11 +1,13 @@
+const Board = require("../models/boardModel");
 const List = require("../models/listModel");
 const Todo = require("../models/todoModel");
 
-const createTodo = async (listId, body) => {
+const createTodo = async (listId, boardId, body) => {
   try {
     const todo = new Todo({
       ...body,
       listId,
+      boardId,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     });
@@ -37,7 +39,11 @@ const updateTodo = async (id, body) => {
     };
 
     const result = await Todo.findByIdAndUpdate(id, updatedTodo, { new: true });
-    return result;
+
+    //get updated board data
+    const board = await Board.findById(result.boardId).populate("lists");
+
+    return board;
   } catch (err) {
     return {
       error: "Internal server error",
@@ -50,6 +56,10 @@ const updateTodo = async (id, body) => {
 const deleteTodo = async (id) => {
   try {
     const result = await Todo.findByIdAndDelete(id);
+
+    //get updated board data
+    const board = await Board.findById(result.boardId).populate("lists");
+
     return result;
   } catch (err) {
     return {

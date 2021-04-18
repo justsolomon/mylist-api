@@ -32,6 +32,7 @@ const updateList = async (id, body) => {
   try {
     const result = await List.findByIdAndUpdate(id, body);
 
+    //get updated board data
     const board = await Board.findById(result.boardId).populate("lists");
 
     return board;
