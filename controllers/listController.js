@@ -31,7 +31,10 @@ const createList = async (boardId, body) => {
 const updateList = async (id, body) => {
   try {
     const result = await List.findByIdAndUpdate(id, body);
-    return result;
+
+    const board = await Board.findById(result.boardId).populate("lists");
+
+    return board;
   } catch (err) {
     return {
       error: "Internal server error",
@@ -46,9 +49,12 @@ const deleteList = async (id) => {
     const result = await List.findByIdAndDelete(id);
 
     //delete todos in the list
-    const deletedTodos = await Todo.deleteMany({ listId: id });
+    await Todo.deleteMany({ listId: id });
 
-    return result;
+    //get updated board data
+    const board = await Board.findById(result.boardId).populate("lists");
+
+    return board;
   } catch (err) {
     return {
       error: "Internal server error",
