@@ -1,6 +1,7 @@
 const Board = require("../models/boardModel");
 const List = require("../models/listModel");
 const Todo = require("../models/todoModel");
+const boardPaths = require("../utils/boardPaths");
 
 const createTodo = async (listId, boardId, body) => {
   try {
@@ -19,9 +20,12 @@ const createTodo = async (listId, boardId, body) => {
       listId,
       { $push: { todos: newTodo._id } },
       { new: true }
-    ).populate("todos");
+    );
 
-    return { ...result.todos };
+    //get updated board data
+    const board = await Board.findById(result.boardId).populate(boardPaths);
+
+    return board;
   } catch (err) {
     return {
       error: "Internal server error",
@@ -41,7 +45,7 @@ const updateTodo = async (id, body) => {
     const result = await Todo.findByIdAndUpdate(id, updatedTodo, { new: true });
 
     //get updated board data
-    const board = await Board.findById(result.boardId).populate("lists");
+    const board = await Board.findById(result.boardId).populate(boardPaths);
 
     return board;
   } catch (err) {
@@ -58,9 +62,9 @@ const deleteTodo = async (id) => {
     const result = await Todo.findByIdAndDelete(id);
 
     //get updated board data
-    const board = await Board.findById(result.boardId).populate("lists");
+    const board = await Board.findById(result.boardId).populate(boardPaths);
 
-    return result;
+    return board;
   } catch (err) {
     return {
       error: "Internal server error",
