@@ -2,8 +2,7 @@ const { deleteList } = require("../../controllers/listController");
 const { getHTTPStatus } = require("../../utils/getHTTPStatus");
 
 exports.deleteListRoute = async (req, res) => {
-  const id = req.params.id;
-  const result = await deleteList(id);
+  const result = await deleteList(req.params.id);
 
-  res.status(getHTTPStatus(result, 204, 400)).send();
+  res.status(getHTTPStatus(result, 200, 400)).send(result);
 };
