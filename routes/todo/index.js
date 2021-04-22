@@ -9,7 +9,7 @@ const todoRouter = express.Router();
 
 todoRouter.get("/:id", getSingleTodoRoute);
 todoRouter.get("/todos", getAllTodosRoute);
-todoRouter.post("/create/:listId", verifyToken, createTodoRoute);
+todoRouter.post("/create/:listId/:boardId", verifyToken, createTodoRoute);
 todoRouter.put("/update/:id", verifyToken, updateTodoRoute);
 todoRouter.delete("/delete/:id", verifyToken, deleteTodoRoute);
 
