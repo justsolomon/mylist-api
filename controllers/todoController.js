@@ -42,12 +42,14 @@ const updateTodo = async (id, body) => {
       updatedAt: new Date().toISOString(),
     };
 
-    const result = await Todo.findByIdAndUpdate(id, updatedTodo, { new: true });
+    const result = await Todo.findByIdAndUpdate(id, updatedTodo, {
+      new: true,
+    }).lean();
 
     //get updated board data
     const board = await Board.findById(result.boardId).populate(boardPaths);
 
-    return board;
+    return { ...result, board };
   } catch (err) {
     return {
       error: "Internal server error",
@@ -76,8 +78,11 @@ const deleteTodo = async (id) => {
 
 const getTodo = async (id) => {
   try {
-    const result = await Todo.findById(id);
-    return result;
+    const result = await Todo.findById(id).select("-__v").lean();
+
+    const list = await List.findById(result.listId).select("title -_id").lean();
+
+    return { ...result, list };
   } catch (err) {
     return {
       error: "Internal server error",
