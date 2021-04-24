@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const getTokenFromHeader = require("../utils/getTokenFromHeader");
 const config = require("../config");
 const boardPaths = require("../utils/boardPaths");
+const Todo = require("../models/todoModel");
 
 const createBoard = async (userId, body) => {
   try {
@@ -62,11 +63,11 @@ const updateBoard = async (id, body) => {
 
 const deleteBoard = async (id) => {
   try {
-    const result = await Board.findByIdAndDelete(id);
+    //delete lists and todos in the board
+    await List.deleteMany({ boardId: id });
+    await Todo.deleteMany({ boardId: id });
 
-    //delete todos in the board
-    const deletedLists = await List.deleteMany({ boardId: id });
-    console.log(result, "deleted lists", deletedLists);
+    const result = await Board.findByIdAndDelete(id);
 
     return result;
   } catch (err) {
