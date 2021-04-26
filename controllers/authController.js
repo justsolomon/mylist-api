@@ -108,7 +108,10 @@ exports.registerUser = async (body, ipAddress, res) => {
     // set refresh token in cookie header
     setTokenCookie(res, refreshToken.token);
 
-    const userData = await User.findById(result._id).select("-password").lean();
+    const userData = await User.findById(result._id)
+      .populate("boards")
+      .select("-password")
+      .lean();
 
     return { ...userData, jwt };
   } catch (err) {
@@ -132,7 +135,10 @@ exports.loginUser = async (body, ipAddress, res) => {
         }cannot be empty`,
       };
 
-    const user = await User.findOne({ email }).select("-__v").lean();
+    const user = await User.findOne({ email })
+      .populate("boards")
+      .select("-__v")
+      .lean();
     if (!user) return { error: "User not found" };
 
     //return error if passwords don't match
