@@ -1,9 +1,9 @@
 const Board = require("../models/boardModel");
 const List = require("../models/listModel");
 const Todo = require("../models/todoModel");
-const mongoose = require("mongoose");
 const boardPaths = require("../utils/boardPaths");
 const getUpdatedArray = require("../utils/getUpdatedArray");
+const getUpdatedBoard = require("../utils/getUpdatedBoard");
 
 const createList = async (boardId, body) => {
   try {
@@ -35,8 +35,7 @@ const updateList = async (id, body) => {
   try {
     const result = await List.findByIdAndUpdate(id, body);
 
-    //get updated board data
-    const board = await Board.findById(result.boardId).populate(boardPaths);
+    const board = await getUpdatedBoard(result.boardId);
 
     return board;
   } catch (err) {

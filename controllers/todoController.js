@@ -1,7 +1,7 @@
-const Board = require("../models/boardModel");
 const List = require("../models/listModel");
 const Todo = require("../models/todoModel");
-const boardPaths = require("../utils/boardPaths");
+const getUpdatedArray = require("../utils/getUpdatedArray");
+const getUpdatedBoard = require("../utils/getUpdatedBoard");
 
 const createTodo = async (listId, boardId, body) => {
   try {
@@ -16,14 +16,11 @@ const createTodo = async (listId, boardId, body) => {
     const newTodo = await todo.save();
 
     //update todos array in the board with the todo id
-    const result = await List.findByIdAndUpdate(
-      listId,
-      { $push: { todos: newTodo._id } },
-      { new: true }
-    );
+    const result = await List.findByIdAndUpdate(listId, {
+      $push: { todos: newTodo._id },
+    });
 
-    //get updated board data
-    const board = await Board.findById(result.boardId).populate(boardPaths);
+    const board = await getUpdatedBoard(result.boardId);
 
     return board;
   } catch (err) {
@@ -46,10 +43,64 @@ const updateTodo = async (id, body) => {
       new: true,
     }).lean();
 
-    //get updated board data
-    const board = await Board.findById(result.boardId).populate(boardPaths);
+    const board = await getUpdatedBoard(result.boardId);
+    const list = await List.findById(result.listId).select("title -_id").lean();
 
-    return { ...result, board };
+    return { ...result, board, list };
+  } catch (err) {
+    return {
+      error: "Internal server error",
+      message: err.message,
+      err: err.stack,
+    };
+  }
+};
+
+const updateTodoPosition = async (listId, todoId, newIndex) => {
+  try {
+    const list = await List.findById(listId).select("todos").lean();
+
+    let todos = list.todos;
+    const updatedTodos = getUpdatedArray(
+      todos,
+      todos.findIndex((id) => id.toHexString() === todoId),
+      newIndex
+    );
+
+    if (!updatedTodos) return { error: "Invalid index specified" };
+
+    //update todos array in the list
+    const result = await List.findByIdAndUpdate(listId, {
+      $set: { todos: updatedTodos },
+    });
+
+    const board = await getUpdatedBoard(result.boardId);
+
+    return board;
+  } catch (err) {
+    return {
+      error: "Internal server error",
+      message: err.message,
+      err: err.stack,
+    };
+  }
+};
+
+const moveTodoToList = async (params) => {
+  try {
+    const { index, newListId, oldListId, todoId } = params;
+
+    //delete todo ref from old list
+    await List.findByIdAndUpdate(oldListId, { $pull: { todos: todoId } });
+
+    //add todo to index in the new list
+    const newList = await List.findByIdAndUpdate(newListId, {
+      $push: { todos: { $each: [todoId], $position: Number(index) } },
+    });
+
+    const board = await getUpdatedBoard(newList.boardId);
+
+    return board;
   } catch (err) {
     return {
       error: "Internal server error",
@@ -63,8 +114,7 @@ const deleteTodo = async (id) => {
   try {
     const result = await Todo.findByIdAndDelete(id);
 
-    //get updated board data
-    const board = await Board.findById(result.boardId).populate(boardPaths);
+    const board = await getUpdatedBoard(result.boardId);
 
     return board;
   } catch (err) {
@@ -105,4 +155,12 @@ const getAllTodos = async () => {
   }
 };
 
-module.exports = { createTodo, updateTodo, deleteTodo, getTodo, getAllTodos };
+module.exports = {
+  createTodo,
+  updateTodo,
+  deleteTodo,
+  getTodo,
+  getAllTodos,
+  updateTodoPosition,
+  moveTodoToList,
+};

@@ -15,20 +15,24 @@ const createBoard = async (userId, body) => {
       userId,
     });
 
-    const newBoard = await board.save();
+    const savedBoard = await board.save();
 
     //update boards array in the user with the board id
-    const result = await User.findByIdAndUpdate(
+    const user = await User.findByIdAndUpdate(
       userId,
-      { $push: { boards: newBoard._id } },
+      { $push: { boards: savedBoard._id } },
       { new: true }
     )
       .populate("boards")
       .select("-password");
 
-    if (!result) return { error: `User with id ${userId} doesn't exist` };
+    if (!user) return { error: `User with id ${userId} doesn't exist` };
 
-    return result;
+    const boardData = await Board.findById(savedBoard._id)
+      .populate(boardPaths)
+      .lean();
+
+    return { ...boardData, user };
   } catch (err) {
     return {
       error: "Internal server error",
@@ -44,7 +48,9 @@ const updateBoard = async (id, body) => {
 
     const result = await Board.findByIdAndUpdate(id, body, {
       new: true,
-    }).lean();
+    })
+      .populate(boardPaths)
+      .lean();
 
     const user = await User.findById(result.userId)
       .populate("boards")
