@@ -3,8 +3,6 @@ const mongoose = require("mongoose");
 const todoSchema = new mongoose.Schema({
   title: { type: String, required: true },
   description: String,
-  listId: { type: String, required: true },
-  boardId: { type: String, required: true },
   createdAt: {
     type: Date,
     default: Date.now,
@@ -13,9 +11,14 @@ const todoSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  owner: {
+  listId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "List",
+  },
+  boardId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: "Board",
   },
 });
 

@@ -24,10 +24,10 @@ const createTodo = async (listId, boardId, body) => {
 
     return board;
   } catch (err) {
+    console.error(err);
     return {
       error: "Internal server error",
       message: err.message,
-      err: err.stack,
     };
   }
 };
@@ -48,10 +48,11 @@ const updateTodo = async (id, body) => {
 
     return { ...result, board, list };
   } catch (err) {
+    console.error(err);
+
     return {
       error: "Internal server error",
       message: err.message,
-      err: err.stack,
     };
   }
 };
@@ -78,10 +79,11 @@ const updateTodoPosition = async (listId, todoId, newIndex) => {
 
     return board;
   } catch (err) {
+    console.error(err);
+
     return {
       error: "Internal server error",
       message: err.message,
-      err: err.stack,
     };
   }
 };
@@ -102,10 +104,11 @@ const moveTodoToList = async (params) => {
 
     return board;
   } catch (err) {
+    console.error(err);
+
     return {
       error: "Internal server error",
       message: err.message,
-      err: err.stack,
     };
   }
 };
@@ -118,10 +121,11 @@ const deleteTodo = async (id) => {
 
     return board;
   } catch (err) {
+    console.error(err);
+
     return {
       error: "Internal server error",
       message: err.message,
-      err: err.stack,
     };
   }
 };
@@ -130,14 +134,17 @@ const getTodo = async (id) => {
   try {
     const result = await Todo.findById(id).select("-__v").lean();
 
+    if (!result) return { error: "Card does not exist" };
+
     const list = await List.findById(result.listId).select("title -_id").lean();
 
     return { ...result, list };
   } catch (err) {
+    console.error(err);
+
     return {
       error: "Internal server error",
       message: err.message,
-      err: err.stack,
     };
   }
 };
@@ -147,10 +154,11 @@ const getAllTodos = async () => {
     const result = await Todo.find();
     return result;
   } catch (err) {
+    console.error(err);
+
     return {
       error: "Internal server error",
       message: err.message,
-      err: err.stack,
     };
   }
 };

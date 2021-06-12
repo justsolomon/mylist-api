@@ -23,10 +23,10 @@ const createList = async (boardId, body) => {
 
     return result;
   } catch (err) {
+    console.error(err);
     return {
       error: "Internal server error",
       message: err.message,
-      err: err.stack,
     };
   }
 };
@@ -39,10 +39,11 @@ const updateList = async (id, body) => {
 
     return board;
   } catch (err) {
+    console.error(err);
+
     return {
       error: "Internal server error",
       message: err.message,
-      err: err.stack,
     };
   }
 };
@@ -65,10 +66,11 @@ const deleteList = async (id) => {
 
     return board;
   } catch (err) {
+    console.error(err);
+
     return {
       error: "Internal server error",
       message: err.message,
-      err: err.stack,
     };
   }
 };
@@ -78,10 +80,11 @@ const getList = async (id) => {
     const result = await List.findById(id).populate("todos", "-__v");
     return result;
   } catch (err) {
+    console.error(err);
+
     return {
       error: "Internal server error",
       message: err.message,
-      err: err.stack,
     };
   }
 };
@@ -108,10 +111,11 @@ const updateListPosition = async (boardId, listId, newIndex) => {
 
     return result;
   } catch (err) {
+    console.error(err);
+
     return {
       error: "Internal server error",
       message: err.message,
-      err: err.stack,
     };
   }
 };
@@ -121,10 +125,11 @@ const getAllLists = async () => {
     const result = await List.find().populate("todos", "-__v");
     return result;
   } catch (err) {
+    console.error(err);
+
     return {
       error: "Internal server error",
       message: err.message,
-      err: err.stack,
     };
   }
 };

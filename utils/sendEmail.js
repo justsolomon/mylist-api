@@ -30,10 +30,11 @@ const sendEmail = async (email, subject, payload, template) => {
 
     if (result.accepted.length) return { status: "Email sent successfully" };
   } catch (err) {
+    console.error(err);
+
     return {
       error: "Internal server error",
       message: err.message,
-      err: err.stack,
     };
   }
 };

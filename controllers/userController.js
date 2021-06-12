@@ -13,10 +13,11 @@ const getUser = async (username) => {
 
     return user;
   } catch (err) {
+    console.error(err);
+
     return {
       error: "Internal server error",
       message: err.message,
-      err: err.stack,
     };
   }
 };
@@ -26,10 +27,11 @@ const getAuthenticatedUser = async (id) => {
     const user = await User.findById(id).select("-password").populate("boards");
     return user;
   } catch (err) {
+    console.error(err);
+
     return {
       error: "Internal server error",
       message: err.message,
-      err: err.stack,
     };
   }
 };
@@ -44,12 +46,31 @@ const updateUser = async (id, body) => {
     }).select("-__v -password");
     return result;
   } catch (err) {
+    console.error(err);
+
     return {
       error: "Internal server error",
       message: err.message,
-      err: err.stack,
     };
   }
 };
 
-module.exports = { getAuthenticatedUser, getUser, updateUser };
+const searchUsers = async (query) => {
+  try {
+    const $regex = new RegExp(query, "i");
+    const result = await User.find({
+      $or: [{ username: { $regex } }, { email: { $regex } }],
+    }).select("email username imageUrl");
+
+    return result;
+  } catch (err) {
+    console.error(err);
+
+    return {
+      error: "Internal server error",
+      message: err.message,
+    };
+  }
+};
+
+module.exports = { getAuthenticatedUser, getUser, updateUser, searchUsers };

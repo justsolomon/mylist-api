@@ -1,6 +1,12 @@
 const setHeaders = (req, res, next) => {
+  //set access-control-allow-origin if origin exists in whitelist
+  const allowedOrigins = ["http://localhost:3000"];
+  const { origin } = req.headers;
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+  }
+
   res.setHeader("Content-Type", "application/json");
-  res.setHeader("Access-Control-Allow-Origin", "https://980421a93a59.ngrok.io");
   res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader(
     "Access-Control-Allow-Methods",

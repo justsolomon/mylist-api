@@ -8,11 +8,11 @@ const listSchema = mongoose.Schema({
       ref: "Todo",
     },
   ],
-  owner: {
+  boardId: {
     type: mongoose.Schema.Types.ObjectId,
+    required: true,
     ref: "Board",
   },
-  boardId: { type: String, required: true },
 });
 
 const List = mongoose.model("List", listSchema);

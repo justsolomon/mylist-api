@@ -1,7 +1,8 @@
 const bcrypt = require("bcryptjs");
+const { bcryptSalt } = require("../config");
 
 const generateHashedPassword = (password) => {
-  return bcrypt.hashSync(password, process.env.BCRYPT_SALT);
+  return bcrypt.hashSync(password, bcryptSalt);
 };
 
 module.exports = generateHashedPassword;

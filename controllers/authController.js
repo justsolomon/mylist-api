@@ -66,14 +66,8 @@ const setTokenCookie = (res, token) => {
 
 exports.registerUser = async (body, ipAddress, res) => {
   try {
-    const {
-      password,
-      email,
-      username,
-      confirmPassword,
-      firstName,
-      lastName,
-    } = body;
+    const { password, email, username, confirmPassword, firstName, lastName } =
+      body;
 
     //check if passwords match
     if (password !== confirmPassword)
@@ -115,10 +109,10 @@ exports.registerUser = async (body, ipAddress, res) => {
 
     return { ...userData, jwt };
   } catch (err) {
+    console.error(err);
     return {
       error: "Internal server error",
       message: err.message,
-      err: err.stack,
     };
   }
 };
@@ -157,10 +151,10 @@ exports.loginUser = async (body, ipAddress, res) => {
 
     return { ...user, jwt };
   } catch (err) {
+    console.error(err);
     return {
       error: "Internal server error",
       message: err.message,
-      err: err.stack,
     };
   }
 };
@@ -190,10 +184,10 @@ exports.refreshTokenController = async (token, ipAddress, res) => {
 
     return { jwt };
   } catch (err) {
+    console.error(err);
     return {
       error: "Internal server error",
       message: err.message,
-      err: err.stack,
     };
   }
 };
@@ -226,10 +220,11 @@ exports.requestResetPassword = async (email) => {
 
     return result;
   } catch (err) {
+    console.error(err);
+
     return {
       error: "Internal server error",
       message: err.message,
-      err: err.stack,
     };
   }
 };
@@ -267,10 +262,11 @@ exports.resetPassword = async (body) => {
     if (user) return { success: "Password reset successful" };
     else return { data: user, error: "Something went wrong" };
   } catch (err) {
+    console.error(err);
+
     return {
       error: "Internal server error",
       message: err.message,
-      err: err.stack,
     };
   }
 };
