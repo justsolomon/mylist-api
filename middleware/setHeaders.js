@@ -1,6 +1,9 @@
 const setHeaders = (req, res, next) => {
   //set access-control-allow-origin if origin exists in whitelist
-  const allowedOrigins = ["http://localhost:3000"];
+  const allowedOrigins = [
+    "http://localhost:3000",
+    "https://mylist-app.netlify.app",
+  ];
   const { origin } = req.headers;
   if (allowedOrigins.includes(origin)) {
     res.setHeader("Access-Control-Allow-Origin", origin);

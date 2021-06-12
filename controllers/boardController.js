@@ -174,7 +174,7 @@ const sendBoardInvite = async (
     }
 
     for (let i = 0; i < recipientAddresses.length; i++) {
-      const link = `http://localhost:3000/board/accept-invite/${recipientIds[0]}/${boardId}/${boardName}/${firstName}`;
+      const link = `https://mylist-app.netlify.app/board/accept-invite/${recipientIds[0]}/${boardId}/${boardName}/${firstName}`;
 
       await sendEmail(
         recipientAddresses[i],

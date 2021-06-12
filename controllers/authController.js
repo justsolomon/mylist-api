@@ -210,7 +210,7 @@ exports.requestResetPassword = async (email) => {
       createdAt: Date.now(),
     }).save();
 
-    const link = `http://localhost:3000/reset-password?token=${resetToken}&userId=${user._id}`;
+    const link = `https://mylist-app.netlify.app/reset-password?token=${resetToken}&userId=${user._id}`;
     const result = await sendEmail(
       user.email,
       "Reset your password",
