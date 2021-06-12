@@ -132,13 +132,17 @@ const deleteTodo = async (id) => {
 
 const getTodo = async (id) => {
   try {
-    const result = await Todo.findById(id).select("-__v").lean();
+    const result = await Todo.findById(id)
+      .populate([
+        { path: "boardId", select: "background title" },
+        { path: "listId", select: "title" },
+      ])
+      .select("-__v")
+      .lean();
 
     if (!result) return { error: "Card does not exist" };
 
-    const list = await List.findById(result.listId).select("title -_id").lean();
-
-    return { ...result, list };
+    return result;
   } catch (err) {
     console.error(err);
 
