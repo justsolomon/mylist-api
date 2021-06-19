@@ -41,7 +41,12 @@ const updateTodo = async (id, body) => {
 
     const result = await Todo.findByIdAndUpdate(id, updatedTodo, {
       new: true,
-    }).lean();
+    })
+      .populate([
+        { path: "boardId", select: "background title" },
+        { path: "listId", select: "title" },
+      ])
+      .lean();
 
     const board = await getUpdatedBoard(result.boardId);
     const list = await List.findById(result.listId).select("title -_id").lean();
