@@ -1,0 +1,441 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "MyList API",
+    "description": "Documentation of the available endpoints for the [MyList](https://mylist-app.netlify.app) API",
+    "version": "0.1"
+  },
+  "servers": [
+    {
+      "url": "https://mylist-app.herokuapp.com"
+    }
+  ],
+  "paths": {
+    "/signup": {
+      "post": {
+        "description": "Create a new user account",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/body"
+              },
+              "example": {
+                "email": "test@example.com",
+                "username": "testuser",
+                "firstName": "Test",
+                "lastName": "User",
+                "password": "testpassword",
+                "confirmPassword": "testpassword"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Create account response body",
+            "headers": {
+              "Set-Cookie": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string",
+                  "example": "refreshToken=01ae2390b061570a31b13016791bd1b4f8197016e41ad8c641db049c00847c49; Path=/; Expires=Sun, 27 Jun 2021 15:36:56 GMT; HttpOnly; Secure; SameSite=None"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200"
+                },
+                "example": {
+                  "_id": "60ceeb6a5eb6960008c5638b",
+                  "boards": [],
+                  "email": "test@example.com",
+                  "username": "testuser",
+                  "firstName": "Test",
+                  "lastName": "User",
+                  "fullName": "Test User",
+                  "imageUrl": "https://ui-avatars.com/api/?name=Test+User",
+                  "dateJoined": "2021-06-20T07:16:58.703Z",
+                  "jwt": {
+                    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwY2VlYjZhNWViNjk2MDAwOGM1NjM4YiIsImlhdCI6MTYyNDIwMTgxNCwiZXhwIjoxNjI0Mjg4MjE0fQ.u_bQZ8AHfvy2CY83Sn2AkEvNCEndJB6XrfdVDJZa4bY",
+                    "expiresAt": 1624288214
+                  }
+                }
+              }
+            }
+          }
+        },
+        "servers": [
+          {
+            "url": "https://mylist-app.herokuapp.com"
+          }
+        ]
+      },
+      "servers": [
+        {
+          "url": "https://mylist-app.herokuapp.com"
+        }
+      ]
+    },
+    "/login": {
+      "post": {
+        "description": "Login user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/body_1"
+              },
+              "example": {
+                "email": "test@example.com",
+                "password": "testpassword"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login user response body",
+            "headers": {
+              "Set-Cookie": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string",
+                  "example": "refreshToken=01ae2390b061570a31b13016791bd1b4f8197016e41ad8c641db049c00847c49; Path=/; Expires=Sun, 27 Jun 2021 15:36:56 GMT; HttpOnly; Secure; SameSite=None"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200"
+                },
+                "example": {
+                  "_id": "60ceeb6a5eb6960008c5638b",
+                  "boards": [],
+                  "email": "test@example.com",
+                  "username": "testuser",
+                  "firstName": "Test",
+                  "lastName": "User",
+                  "fullName": "Test User",
+                  "imageUrl": "https://ui-avatars.com/api/?name=Test+User",
+                  "dateJoined": "2021-06-20T07:16:58.703Z",
+                  "jwt": {
+                    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwY2VlYjZhNWViNjk2MDAwOGM1NjM4YiIsImlhdCI6MTYyNDIwMTgxNCwiZXhwIjoxNjI0Mjg4MjE0fQ.u_bQZ8AHfvy2CY83Sn2AkEvNCEndJB6XrfdVDJZa4bY",
+                    "expiresAt": 1624288214
+                  }
+                }
+              }
+            }
+          }
+        },
+        "servers": [
+          {
+            "url": "https://mylist-app.herokuapp.com"
+          }
+        ]
+      },
+      "servers": [
+        {
+          "url": "https://mylist-app.herokuapp.com"
+        }
+      ]
+    },
+    "/reset-password": {
+      "put": {
+        "description": "Reset user password",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/body_2"
+              },
+              "example": {
+                "token": "77ada47ef5957f4c80002e413eb7b2ea0e5f5d95b32dab12f619f0ea71bbdfce",
+                "userId": "60ce1bfac5903d00084c431d",
+                "password": "newpassword",
+                "confirmPassword": "newpassword"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Reset user password response body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_1"
+                },
+                "example": {
+                  "success": "Password reset successful"
+                }
+              }
+            }
+          }
+        },
+        "servers": [
+          {
+            "url": "https://mylist-app.herokuapp.com"
+          }
+        ]
+      },
+      "post": {
+        "description": "Request password reset",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/body_3"
+              },
+              "example": {
+                "email": "test@example.com"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Request password reset response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_2"
+                },
+                "example": {
+                  "status": "Email sent successfully"
+                }
+              }
+            }
+          }
+        },
+        "servers": [
+          {
+            "url": "https://mylist-app.herokuapp.com"
+          }
+        ]
+      },
+      "servers": [
+        {
+          "url": "https://mylist-app.herokuapp.com"
+        }
+      ]
+    },
+    "/refresh-token": {
+      "post": {
+        "description": "Refresh user token",
+        "parameters": [
+          {
+            "name": "refreshToken",
+            "in": "cookie",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "example": "ade46e1e95613e46804800cb4274f2657bc0295cd3cc75c33520f5513772c488"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Refresh token response",
+            "headers": {
+              "Set-Cookie": {
+                "style": "simple",
+                "explode": false,
+                "schema": {
+                  "type": "string",
+                  "example": "refreshToken=01ae2390b061570a31b13016791bd1b4f8197016e41ad8c641db049c00847c49; Path=/; Expires=Sun, 27 Jun 2021 15:36:56 GMT; HttpOnly; Secure; SameSite=None"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_3"
+                },
+                "example": {
+                  "jwt": {
+                    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwY2VlYjZhNWViNjk2MDAwOGM1NjM4YiIsImlhdCI6MTYyNDIwMTgxNCwiZXhwIjoxNjI0Mjg4MjE0fQ.u_bQZ8AHfvy2CY83Sn2AkEvNCEndJB6XrfdVDJZa4bY",
+                    "expiresAt": 1624288214
+                  }
+                }
+              }
+            }
+          }
+        },
+        "servers": [
+          {
+            "url": "https://mylist-app.herokuapp.com"
+          }
+        ]
+      },
+      "servers": [
+        {
+          "url": "https://mylist-app.herokuapp.com"
+        }
+      ]
+    }
+  },
+  "components": {
+    "schemas": {
+      "body": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "confirmPassword": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          }
+        }
+      },
+      "inline_response_200": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "boards": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "email": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "fullName": {
+            "type": "string"
+          },
+          "imageUrl": {
+            "type": "string"
+          },
+          "dateJoined": {
+            "type": "string"
+          },
+          "jwt": {
+            "type": "object",
+            "properties": {
+              "token": {
+                "type": "string"
+              },
+              "expiresAt": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      },
+      "body_1": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        }
+      },
+      "body_2": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string"
+          },
+          "confirmPassword": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "token": {
+            "type": "string"
+          }
+        }
+      },
+      "inline_response_200_1": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "string"
+          }
+        }
+      },
+      "body_3": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string"
+          },
+          "confirmPassword": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "token": {
+            "type": "string"
+          }
+        }
+      },
+      "inline_response_200_2": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          }
+        }
+      },
+      "inline_response_200_3": {
+        "type": "object",
+        "properties": {
+          "jwt": {
+            "type": "object",
+            "properties": {
+              "token": {
+                "type": "string"
+              },
+              "expiresAt": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
