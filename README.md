@@ -4,7 +4,7 @@ API for [mylist](https://github.com/justsolomon/mylist)
 
 ## Getting Started
 
-The following contains the steps required to get the application up and running on your local workspace. To check out the available endpoints, visit the [documentation](https://mylist-app.netlify.app/api-docs)
+The following contains the steps required to get the application up and running on your local workspace. To check out the available endpoints, visit the [documentation](https://mylist-app.herokuapp.com/api-docs)
 
 ### Prerequisites
 
