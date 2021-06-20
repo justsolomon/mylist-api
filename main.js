@@ -1,10 +1,10 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
-const errorHandler = require("../middleware/errorHandler");
-const setHeaders = require("../middleware/setHeaders");
-const database = require("../database");
+const errorHandler = require("./middleware/errorHandler");
+const setHeaders = require("./middleware/setHeaders");
+const database = require("./database");
 const dotenv = require("dotenv");
-const router = require("../routes");
+const router = require("./routes");
 
 const app = express();
 

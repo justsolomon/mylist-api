@@ -1,9 +1,9 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("../config");
-const RefreshToken = require("../models/refreshTokenModel");
-const Token = require("../models/tokenModel");
-const User = require("../models/userModel");
+const RefreshToken = require("../../models/refreshTokenModel");
+const Token = require("../../models/tokenModel");
+const User = require("../../models/userModel");
 const crypto = require("crypto");
 const generateHashedPassword = require("../utils/generateHashedPassword");
 const sendEmail = require("../utils/sendEmail");
@@ -215,7 +215,7 @@ exports.requestResetPassword = async (email) => {
       user.email,
       "Reset your password",
       { name: user.firstName, link },
-      "/api/views/resetPassword.handlebars"
+      "/views/resetPassword.handlebars"
     );
 
     return result;

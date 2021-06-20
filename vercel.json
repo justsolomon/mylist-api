@@ -1,9 +1,0 @@
-{
-  "version": 2,
-  "name": "mylist-api",
-  "functions": {
-    "api/main.js": {
-      "includeFiles": "views/**"
-    }
-  }
-}
