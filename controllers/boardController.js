@@ -1,11 +1,11 @@
-const Board = require("../../models/boardModel");
-const List = require("../../models/listModel");
-const User = require("../../models/userModel");
+const Board = require("../models/boardModel");
+const List = require("../models/listModel");
+const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 const getTokenFromHeader = require("../utils/getTokenFromHeader");
 const config = require("../config");
 const boardPaths = require("../utils/boardPaths");
-const Todo = require("../../models/todoModel");
+const Todo = require("../models/todoModel");
 const sendEmail = require("../utils/sendEmail");
 
 const createBoard = async (userId, body) => {
