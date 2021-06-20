@@ -4,8 +4,8 @@
   "description": "A RESTful API for performing CRUD operations on things to do",
   "main": "main.js",
   "scripts": {
-    "start": "node api/main.js",
-    "dev": "nodemon api/main.js",
+    "start": "node main.js",
+    "dev": "nodemon main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
