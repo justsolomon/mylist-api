@@ -185,7 +185,7 @@ const sendBoardInvite = async (
           board: boardName,
           link,
         },
-        "/views/inviteUser.handlebars"
+        "/api/views/inviteUser.handlebars"
       );
     }
 

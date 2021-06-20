@@ -215,7 +215,7 @@ exports.requestResetPassword = async (email) => {
       user.email,
       "Reset your password",
       { name: user.firstName, link },
-      "/views/resetPassword.handlebars"
+      "/api/views/resetPassword.handlebars"
     );
 
     return result;
