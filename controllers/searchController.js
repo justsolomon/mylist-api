@@ -8,28 +8,43 @@ const runGlobalSearch = async (query, userId) => {
     const user = await User.findById(userId)
       .populate({
         path: "boards",
-        select: "background title",
+        select: "background lists title",
+        populate: {
+          path: "lists",
+          select: "todos -_id",
+          populate: {
+            path: "todos",
+            select: "title description listId boardId",
+            populate: [
+              { path: "boardId", select: "title" },
+              { path: "listId", select: "title -_id" },
+            ],
+          },
+        },
       })
       .select("boards");
 
-    const boardResults = user.boards.filter((board) =>
-      $regex.test(board.title)
-    );
-
+    let allLists = [];
+    let allTodos = [];
     let todoResults = [];
+    let boardResults = [];
 
-    for (let i = 0; i < user.boards.length; i++) {
-      let todos = await Todo.find({
-        boardId: user.boards[i]._id,
-        $or: [{ title: { $regex } }, { description: { $regex } }],
-      })
-        .populate([
-          { path: "boardId", select: "title private" },
-          { path: "listId", select: "title" },
-        ])
-        .select("title description listId boardId");
+    for (let board of user.boards) {
+      allLists = allLists.concat(board.lists);
 
-      todoResults = todoResults.concat(todos);
+      if ($regex.test(board.title)) {
+        const { _id, title, background } = board;
+        boardResults.push({ _id, title, background });
+      }
+    }
+
+    for (let list of allLists) {
+      allTodos = allTodos.concat(list.todos);
+    }
+
+    for (let todo of allTodos) {
+      if ($regex.test(todo.title) || $regex.test(todo.description))
+        todoResults.push(todo);
     }
 
     return { boards: boardResults, todos: todoResults };
