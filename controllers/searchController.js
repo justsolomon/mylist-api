@@ -8,7 +8,7 @@ const runGlobalSearch = async (query, userId) => {
     const user = await User.findById(userId)
       .populate({
         path: "boards",
-        select: "background title",
+        select: "background starred title",
       })
       .select("boards");
 
