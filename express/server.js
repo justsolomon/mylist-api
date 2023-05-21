@@ -19,6 +19,7 @@ const whitelist = [
 ];
 app.use(
   cors({
+    credentials: true,
     origin: (origin, callback) => {
       callback(
         whitelist.includes(origin) || !origin
