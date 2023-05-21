@@ -1,4 +1,4 @@
-const app = require("./server");
+const app = require(".");
 
 app.listen(8080, function () {
   console.log(
