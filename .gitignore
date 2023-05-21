@@ -105,3 +105,6 @@ dist
 
 # VScode settings
 .vscode
+
+# Local Netlify folder
+.netlify
