@@ -40,7 +40,7 @@ app.use(setHeaders);
 app.use(errorHandler);
 
 //use all routes
-app.use("/.netlify/functions/server", router);
+app.use("/.netlify/functions", router);
 
 module.exports = app;
 module.exports.handler = serverless(app);
