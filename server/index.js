@@ -1,13 +1,13 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
-const errorHandler = require("./middleware/errorHandler");
-const setHeaders = require("./middleware/setHeaders");
-const database = require("./database");
+const errorHandler = require("../middleware/errorHandler");
+const setHeaders = require("../middleware/setHeaders");
+const serverless = require("serverless-http");
+const database = require("../database");
 const dotenv = require("dotenv");
-const router = require("./routes");
-const serverPort = 5000;
+const router = require("../routes");
 const swaggerUi = require("swagger-ui-express");
-const swaggerDocument = require("./utils/swagger.json");
+const swaggerDocument = require("../utils/swagger.json");
 
 const app = express();
 
@@ -40,13 +40,7 @@ app.use(setHeaders);
 app.use(errorHandler);
 
 //use all routes
-app.use("/", router);
+app.use("/.netlify/functions/server", router);
 
-app.listen(process.env.PORT || serverPort, function () {
-  console.log(
-    `Server listening on port ${this.address().port} in ${
-      app.settings.env
-    } mode`
-  );
-  console.log(`Swagger-UI is available on /api-docs`);
-});
+module.exports = app;
+module.exports.handler = serverless(app);
