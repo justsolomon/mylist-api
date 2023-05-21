@@ -12,7 +12,23 @@ const swaggerDocument = require("../utils/swagger.json");
 
 const app = express();
 
-app.use(cors());
+const whitelist = [
+  "http://localhost:3000",
+  "http://localhost:5000",
+  "https://mylist-app.netlify.app",
+];
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      callback(
+        whitelist.includes(origin) || !origin
+          ? null
+          : new Error(`Access to API from origin ${origin} denied`),
+        origin
+      );
+    },
+  })
+);
 
 //use swagger ui docs route
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
