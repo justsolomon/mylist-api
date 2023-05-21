@@ -31,8 +31,6 @@ app.use(express.json());
 //to parse cookies
 app.use(cookieParser());
 
-//use docs route
-
 //set general response headers
 app.use(setHeaders);
 
@@ -40,7 +38,7 @@ app.use(setHeaders);
 app.use(errorHandler);
 
 //use all routes
-app.use("/.netlify/functions/server", router);
+app.use("/.netlify/functions", router);
 
 module.exports = app;
 module.exports.handler = serverless(app);
